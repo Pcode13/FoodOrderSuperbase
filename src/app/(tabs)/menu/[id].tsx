@@ -7,17 +7,62 @@ import {
   } from 'react-native';
   import React, { useState } from 'react';
   import { Stack, useLocalSearchParams } from 'expo-router';
-  
+  import products from '@assets/data/products';
+  import { defaultImage } from '@/components/ProductListItem';
+import { PizzaSize } from '@/types';
+import Button from '@/components/Button';
 
-  
+
+  const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL'];
+
   const ProductDetailsScreen = () => {
     const { id } = useLocalSearchParams();
+    const [selectedSize, setSelectedSize] = useState<PizzaSize>('M');
   
-  
+    const product =products.find((p)=>p.id.toString()=== id);
+  console.log(product);
+  if(!product){
+    return <Text>Product is not Found</Text>
+  }
+  const addToCart = () => {
+    if (!product) return;
+    console.warn('Add to cart');
+  };
+
     return (
       <View style={styles.container}>
-        <Stack.Screen options={{title:"Details" + id}}/>
-<Text>Producat :{id}</Text>
+      <Stack.Screen options={{ title: product.name }} />
+      <Image
+        source={{ uri: product.image || defaultImage }}
+        style={styles.image}
+        resizeMode="contain"
+      />
+       <Text style={styles.subtitle}>Select size</Text>
+       <View style={styles.sizes}>
+        {sizes.map((size) => (
+          <Pressable
+            onPress={() => setSelectedSize(size)}
+            key={size}
+            style={[
+              styles.size,
+              {
+                backgroundColor: size === selectedSize ? 'gainsboro' : 'white',
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.sizeText,
+                { color: size === selectedSize ? 'black' : 'gray' },
+              ]}
+            >
+              {size}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+      <Text style={styles.price}>Price: ${product.price.toFixed(2)}</Text>
+      <Button onPress={addToCart} text="Add to cart" />
       </View>
     );
   };
