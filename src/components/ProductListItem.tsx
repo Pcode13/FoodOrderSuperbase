@@ -1,15 +1,20 @@
 import { StyleSheet, Image, Text, View } from 'react-native';
+import Colors from '../constants/Colors';
+import { Product } from '../types';
+type ProductListItemProps ={
+    product:Product
+}
 
-import products from '@assets/data/products';
-import Colors from '@/constants/Colors';
-import ProductListItem from '@components/ProductListItem'
-
-
-export default function TabOneScreen() {
+export default function ProductListItem({ product }: ProductListItemProps) {
   return (
     <View style={styles.container}>
-     <ProductListItem product={products[5]}/>
-     <ProductListItem product={products[1]}/>
+      <Image
+        source={{ uri: product.image || 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'}}
+        style={styles.image}
+        resizeMode="contain"
+      />
+      <Text style={styles.title}>{product.name}</Text>
+      <Text style={styles.price}>${product.price.toFixed(2)}</Text>
     </View>
   );
 }
