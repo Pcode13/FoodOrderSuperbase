@@ -12,12 +12,8 @@ function TabBarIcon(props: {
 }
 export default function MenuStack() {
   return(
-    <Stack 
-    screenOptions={{
-    
-    }}
-    >
-        <Stack.Screen name="index" options={{title:"Menu",
+    <Stack>
+        <Stack.Screen name="[id]" options={{title:"Menu",
         headerRight: () => (
           <Link href="/" asChild>
             <Pressable>
